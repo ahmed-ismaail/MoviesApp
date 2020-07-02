@@ -1,5 +1,6 @@
 package com.example.ytsmoviesapp.model.data;
 
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -26,7 +27,11 @@ public class RetrofitHelper {
         movieInterface = retrofit.create(MovieInterface.class);
     }
 
-    public Call<String> getMovies(){
+    public Call<String> getMovies() {
         return movieInterface.getMovies("2160p");
+    }
+
+    public Call<String> getSelectedMovie(int id) {
+        return movieInterface.getSelectedMovie(id);
     }
 }

@@ -1,17 +1,36 @@
 package com.example.ytsmoviesapp.model;
 
-public class MovieModel {
+public class MovieDetailsModel {
+
     private String movieName;
     private String movieYear;
     private String movieImageUrl;
-    private int ID;
+    private String movieGenre;
+    private String movieDescription;
+    private int movieRating;
 
-    public int getID() {
-        return ID;
+    public String getMovieGenre() {
+        return movieGenre;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setMovieGenre(String movieGenre) {
+        this.movieGenre = movieGenre;
+    }
+
+    public int getMovieRating() {
+        return movieRating;
+    }
+
+    public void setMovieRating(int movieRating) {
+        this.movieRating = movieRating;
+    }
+
+    public String getMovieDescription() {
+        return movieDescription;
+    }
+
+    public void setMovieDescription(String movieDescription) {
+        this.movieDescription = movieDescription;
     }
 
     public String getMovieName() {

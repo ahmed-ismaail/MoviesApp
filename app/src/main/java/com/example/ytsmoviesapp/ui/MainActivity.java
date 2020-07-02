@@ -6,16 +6,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ytsmoviesapp.OnMovieClickListener;
 import com.example.ytsmoviesapp.R;
+import com.example.ytsmoviesapp.model.MovieDetailsModel;
 import com.example.ytsmoviesapp.model.MovieModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMovieClickListener {
 
     MovieViewModel movieViewModel;
     RecyclerView recyclerView;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         movieViewModel.fetchMovies();
 
         recyclerView = findViewById(R.id.recyclerView);
-        final MoviesAdapter moviesAdapter = new MoviesAdapter(this);
+        final MoviesAdapter moviesAdapter = new MoviesAdapter(this,this);
         recyclerView.setAdapter(moviesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -40,5 +42,14 @@ public class MainActivity extends AppCompatActivity {
                 moviesAdapter.setMovieModelList(movieModels);
             }
         });
+    }
+
+    @Override
+    public void onItemClickListener(int postion) {
+        Intent intent = new Intent(this,MovieDetailsActivity.class);
+        intent.putExtra("movieID",movieViewModel.movieModelList.get(postion).getID());
+        startActivity(intent);
+
+        //Toast.makeText(this,"clicked",Toast.LENGTH_SHORT).show();
     }
 }
