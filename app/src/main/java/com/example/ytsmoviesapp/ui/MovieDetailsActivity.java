@@ -46,7 +46,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         int movieID = getIntent().getIntExtra("movieID", id);
         movieViewModel.getMovieDelails(movieID);
 
-
         movieViewModel.movieDetailsMutableLiveData.observe(this, new Observer<MovieDetailsModel>() {
             @Override
             public void onChanged(MovieDetailsModel movieDetailsModel) {

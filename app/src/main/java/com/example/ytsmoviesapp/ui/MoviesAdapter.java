@@ -31,8 +31,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return new MovieViewHolder(movieItemBinding);
     }
 
-    public MoviesAdapter(OnMovieClickListener onMovieClickListener) {
+    public MoviesAdapter(OnMovieClickListener onMovieClickListener,List<MovieModel> movieModelList) {
         this.onMovieClickListener = onMovieClickListener;
+        this.movieModelList = movieModelList;
     }
 
     @Override
@@ -46,10 +47,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return movieModelList.size();
     }
 
-    public void setMovieModelList(List<MovieModel> movieModelList) {
-        this.movieModelList = movieModelList;
-        notifyDataSetChanged();
-    }
+//    public void setMovieModelList(List<MovieModel> movieModelList) {
+//        this.movieModelList = movieModelList;
+//        notifyDataSetChanged();
+//    }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
 

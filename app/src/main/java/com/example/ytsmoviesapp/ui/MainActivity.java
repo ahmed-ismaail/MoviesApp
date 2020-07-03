@@ -20,11 +20,15 @@ import com.example.ytsmoviesapp.R;
 import com.example.ytsmoviesapp.databinding.ActivityMainBinding;
 import com.example.ytsmoviesapp.model.MovieModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMovieClickListener {
 
+    List<MovieModel> movieModelList = new ArrayList<>();
     MovieViewModel movieViewModel;
+    MoviesAdapter moviesAdapter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
 
@@ -44,17 +48,26 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
         progressBar.setVisibility(View.VISIBLE);
 
         recyclerView = activityMainBinding.recyclerview;
-        final MoviesAdapter moviesAdapter = new MoviesAdapter(this);
-        recyclerView.setAdapter(moviesAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         movieViewModel.listMutableLiveData.observe(this, new Observer<List<MovieModel>>() {
             @Override
             public void onChanged(List<MovieModel> movieModels) {
                 progressBar.setVisibility(View.GONE);
-                moviesAdapter.setMovieModelList(movieModels);
+                movieModelList.addAll(movieModels);
+                moviesAdapter.notifyDataSetChanged();
             }
         });
+        setupRecyclerView();
+    }
+
+    private void setupRecyclerView() {
+        if (moviesAdapter == null) {
+            moviesAdapter = new MoviesAdapter(MainActivity.this, movieModelList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(moviesAdapter);
+        } else {
+            moviesAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
