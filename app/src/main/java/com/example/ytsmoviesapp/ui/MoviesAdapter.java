@@ -1,18 +1,17 @@
 package com.example.ytsmoviesapp.ui;
 
-import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.ytsmoviesapp.OnMovieClickListener;
 import com.example.ytsmoviesapp.R;
+import com.example.ytsmoviesapp.databinding.MovieItemBinding;
 import com.example.ytsmoviesapp.model.MovieModel;
 
 import java.util.ArrayList;
@@ -20,32 +19,26 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    List<MovieModel> movieModelList = new ArrayList<>();
-    Context context;
-    OnMovieClickListener onMovieClickListener;
+    private List<MovieModel> movieModelList = new ArrayList<>();
+    private OnMovieClickListener onMovieClickListener;
 
     @NonNull
     @Override
     public MoviesAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false),onMovieClickListener);
+        MovieItemBinding movieItemBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.movie_item, parent, false);
+        return new MovieViewHolder(movieItemBinding);
     }
 
-    public MoviesAdapter(Context context,OnMovieClickListener onMovieClickListener) {
-        this.context = context;
+    public MoviesAdapter(OnMovieClickListener onMovieClickListener) {
         this.onMovieClickListener = onMovieClickListener;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapter.MovieViewHolder holder, int position) {
         MovieModel movieModel = movieModelList.get(position);
-
-        holder.movieNameTextView.setText(movieModel.getMovieName());
-        holder.movieYearTextView.setText(movieModel.getMovieYear());
-
-        Glide.with(context)
-                .asBitmap()
-                .load(movieModel.getMovieImageUrl())
-                .into(holder.movieImage);
+        holder.bind(movieModel, onMovieClickListener);
     }
 
     @Override
@@ -58,26 +51,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         notifyDataSetChanged();
     }
 
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // Since our layout file is movie_item.xml, our auto generated binding class is MovieItemBinding
+        private MovieItemBinding itemBinding;
 
-        TextView movieNameTextView, movieYearTextView;
-        ImageView movieImage;
-        OnMovieClickListener onMovieClickListener;
-
-        public MovieViewHolder(@NonNull View itemView, OnMovieClickListener onMovieClickListener) {
-            super(itemView);
-            movieNameTextView = itemView.findViewById(R.id.movieName_textView);
-            movieYearTextView = itemView.findViewById(R.id.movieYear_textView);
-            movieImage = itemView.findViewById(R.id.movieImage);
-            this.onMovieClickListener = onMovieClickListener;
-
-            itemView.setOnClickListener(this);
+        //constructor taking a MovieItemBinding as its parameter
+        public MovieViewHolder(MovieItemBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.itemBinding = itemBinding;
         }
 
-        @Override
-        public void onClick(View v) {
-            onMovieClickListener.onItemClickListener(getAdapterPosition());
+        public void bind(final MovieModel movieModel, final OnMovieClickListener onMovieClickListener) {
+            itemBinding.setMovie(movieModel);
+            itemBinding.executePendingBindings();
+
+            itemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onMovieClickListener.onItemClickListener(movieModel);
+                }
+            });
         }
     }
 }
