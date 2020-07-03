@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    private List<MovieModel> movieModelList = new ArrayList<>();
+    private List<MovieModel> movieModelList;
     private OnMovieClickListener onMovieClickListener;
 
     @NonNull
@@ -47,10 +47,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         return movieModelList.size();
     }
 
-//    public void setMovieModelList(List<MovieModel> movieModelList) {
-//        this.movieModelList = movieModelList;
-//        notifyDataSetChanged();
-//    }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
 

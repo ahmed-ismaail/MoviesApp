@@ -14,15 +14,11 @@ public class MovieViewModel extends ViewModel {
     public MutableLiveData<MovieDetailsModel> movieDetailsMutableLiveData = new MutableLiveData<>();
     private MoviesRespository moviesRespository = MoviesRespository.getInstance();
 
-    public MutableLiveData<List<MovieModel>> fetchMovies() {
-
+    public void fetchMovies() {
         listMutableLiveData = moviesRespository.fetchMovies();
-        return listMutableLiveData;
     }
 
-    public MutableLiveData<MovieDetailsModel> getMovieDelails(int movieID) {
-
+    public void getMovieDelails(int movieID) {
         movieDetailsMutableLiveData = moviesRespository.getMovieDelails(movieID);
-        return movieDetailsMutableLiveData;
     }
 }
